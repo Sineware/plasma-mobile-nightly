@@ -16,6 +16,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import path from "path";
+import { parsePackageDependencies } from "./apkbuild-parser/parser";
+import { repository } from "./apkbuild-parser/repo";
 import exec from "./helpers/exec";
 import { Package, Patch } from "./helpers/types";
 
@@ -27,9 +29,10 @@ const ALPINE_APORTS_REPO = "https://gitlab.alpinelinux.org/alpine/aports.git";
 const PATCH_REMOVE_LANG: Patch = {sedString: '/subpackages=/c\subpackages="$pkgname-dev $pkgname-doc"', file: "APKBUILD"};
 
 let builtList: string[] = [];
+let buildList = ["plasma-mobile"]
 
 // todo fill buildList with all packages and dependencies for plasma-mobile
-let buildList: Package[] = [
+/*let buildList: Package[] = [
     //{name: "breeze-icons", repo: "https://invent.kde.org/frameworks/breeze-icons.git", aports_repo: "community"},
     { name: "kactivities", repo: "https://invent.kde.org/frameworks/kactivities.git", aports_repo: "community",
         depends: [
@@ -69,7 +72,7 @@ let buildList: Package[] = [
         ]
     },
 
-];
+];*/
 
 console.log("WORKDIR: " + WORKDIR);
 console.log("ABUILD_WRAPPER: " + ABUILD_WRAPPER);
@@ -91,10 +94,12 @@ let buildStep = "";
         exec("mkdir -pv prolinux-nightly");
         exec("rm -rf prolinux-nightly/*"); // todo speed up build by removing pkg folders only
 
-        let buildListNames = buildList.map((pkg) => pkg.name).join(", ");
-        console.log("📦 Package list: " + buildListNames);
+        console.log("📦 Package list: " + buildList);
         for (const pkg of buildList) {
-            await buildPackage(pkg);
+            let fullList = parsePackageDependencies(pkg).filter((p) => repository.has(p));
+            for (const d of fullList) {
+                await buildPackage(repository.get(d)!);
+            }
         }
         buildStep = `finish`;
     } catch (e) {
@@ -134,12 +139,13 @@ async function buildPackage(pkg: Package) {
     console.log("🔧   -> Patching APKBUILD with pkgver " + pkgVer);
     buildStep = `build-${pkg.name}-patch`;
     exec(`sed -i '/pkgver=/c\pkgver=${pkgVer}' ${pkgDir}/APKBUILD`);
-    if(pkg.patches) {
+    exec(`sed -i 's/ $pkgname-lang//g' ${pkgDir}/APKBUILD`);
+    /*if(pkg.patches) {
         for (const patch of pkg.patches) {
             console.log("🔧   -> Patching " + patch.file + " with " + patch.sedString);
             exec(`sed -i '${patch.sedString}' ${pkgDir}/${patch.file}`);
         }
-    }
+    }*/
 
     // create link from pkgDir/src/${pkg.name} to pkgDir/src/${pkg.name}-${pkgVer}
     buildStep = `build-${pkg.name}-repolink`;

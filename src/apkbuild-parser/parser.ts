@@ -13,10 +13,10 @@ export function parsePackageDependencies(packageName: string): string[] {
     console.log(`Parsing dependencies for ${packageName}`);
     
     try {
-        let apkbuildPath = "./workdir/aports/community/" + packageName + "/APKBUILD";
+        let apkbuildPath = "./aports/community/" + packageName + "/APKBUILD";
         
         if (!fs.existsSync(apkbuildPath)) {
-            apkbuildPath = "./workdir/aports/main/" + packageName + "/APKBUILD";
+            apkbuildPath = "./aports/main/" + packageName + "/APKBUILD";
             if (!fs.existsSync(apkbuildPath)) {
                 console.log("  -> Package not found.");
                 return [];
@@ -43,6 +43,3 @@ export function parsePackageDependencies(packageName: string): string[] {
         return [];
     }
 }
-
-const depends = parsePackageDependencies("plasma-mobile").filter(item => repository.has(item));
-console.log(depends);

@@ -123,7 +123,6 @@ export const repository = new Map<string,Package>([
     ["ktextwidgets", { name: "ktextwidgets", repo: "https://invent.kde.org/frameworks/ktextwidgets.git", aports_repo: "community"}],
     ["kunitconversion", { name: "kunitconversion", repo: "https://invent.kde.org/frameworks/kunitconversion.git", aports_repo: "community"}],
     ["kwallet", { name: "kwallet", repo: "https://invent.kde.org/frameworks/kwallet.git", aports_repo: "community"}],
-    ["kwayland", { name: "kwayland", repo: "https://invent.kde.org/frameworks/kwayland.git", aports_repo: "community"}],
     ["kwidgetsaddons", { name: "kwidgetsaddons", repo: "https://invent.kde.org/frameworks/kwidgetsaddons.git", aports_repo: "community"}],
     ["kwindowsystem", { name: "kwindowsystem", repo: "https://invent.kde.org/frameworks/kwindowsystem.git", aports_repo: "community"}],
     ["kxmlgui", { name: "kxmlgui", repo: "https://invent.kde.org/frameworks/kxmlgui.git", aports_repo: "community"}],
