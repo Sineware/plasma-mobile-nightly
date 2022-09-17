@@ -10,7 +10,7 @@ export function parsePackageDependencies(packageName: string): string[] {
         return [];
     }
     pkgList.add(packageName.trim());
-    console.log('Parsing dependencies for ${packageName}');
+    console.log(`Parsing dependencies for ${packageName}`);
     
     try {
         let apkbuildPath = "./workdir/aports/community/" + packageName + "/APKBUILD";
