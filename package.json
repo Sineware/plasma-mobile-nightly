@@ -1,0 +1,31 @@
+{
+  "name": "plasma-mobile-nightly-build-script",
+  "version": "1.0.0",
+  "description": "Nightly builds of Plasma Mobile for Alpine, with postmarketOS images.",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "ts-node src/index.ts",
+    "parse": "ts-node src/apkbuild-parser/parser.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sineware/plasma-mobile-nightly.git"
+  },
+  "keywords": [
+    "plasma-mobile",
+    "kde",
+    "postmarketos",
+    "alpine-linux"
+  ],
+  "author": "Seshan Ravikumar",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Sineware/plasma-mobile-nightly/issues"
+  },
+  "homepage": "https://github.com/Sineware/plasma-mobile-nightly#readme",
+  "devDependencies": {
+    "@types/node": "^18.7.18",
+    "ts-node": "^10.9.1"
+  }
+}
