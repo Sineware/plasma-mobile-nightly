@@ -23,7 +23,7 @@ export function parsePackageDependencies(packageName: string): string[] {
             }
         }
         let dependencies = exec(path.join(__dirname, "apkbuild-wrapper.sh") + " " + apkbuildPath, false).toString().split(" ");
-        let packageList = [] as []string;
+        let packageList: string[] = [];
         
         // add dependencies first
         for(let pkg of dependencies) {
