@@ -5,6 +5,7 @@ export default (cmd: string, stdio: boolean = true) => {
         cmd,
         {
             stdio: stdio ? 'inherit' : undefined,
+            shell: '/bin/bash'
         }
     );
 }
