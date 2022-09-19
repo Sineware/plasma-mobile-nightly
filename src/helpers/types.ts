@@ -1,11 +1,10 @@
 export interface Patch {
-    sedString: string;
-    file: string;
+    cmd: string;
+    postCmd?: string;
 }
 export interface Package {
     name: string;
     repo: string;
     aports_repo: string;
-    depends?: Package[];
     patches?: Patch[];
 }
