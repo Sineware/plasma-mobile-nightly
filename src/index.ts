@@ -26,6 +26,7 @@ import { Package } from "./helpers/types";
 const WORKDIR = path.join(process.cwd(), "workdir");
 const ABUILD_WRAPPER = path.join(__dirname, "abuild-wrapper.sh");
 const ALPINE_APORTS_REPO = "https://gitlab.alpinelinux.org/alpine/aports.git";
+const ARCH = exec("uname -m", false).toString().trim();
 if(process.env.BUILD_ALL === "true") {
     process.exit(1);
 }
@@ -77,7 +78,7 @@ let buildStep = "";
         // Deploy files
         buildStep = "deploy";
         console.log("🚀 Deploying files");
-        exec("rsync -aHAXxv --delete --progress ~/packages/prolinux-nightly espimac:/var/www/sineware/repo/alpine/");
+        exec(`rsync -aHAXxv --delete --progress ~/packages/prolinux-nightly/${ARCH} espimac:/var/www/sineware/repo/alpine/prolinux-nightly/`);
 
         buildStep = `finish`;
     } catch (e) {
