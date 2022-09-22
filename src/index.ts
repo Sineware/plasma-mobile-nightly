@@ -60,19 +60,22 @@ let buildStep = "";
         //exec("rm -rfv prolinux-nightly/*"); // todo speed up build by checking if new git commits
 
         // clear repository folder
-        exec("rm -rfv ~/packages/prolinux-nightly/*");
+        //exec("rm -rfv ~/packages/prolinux-nightly/*");
         
 
-        console.log("📦 Package list: " + buildList);
-        for (const pkg of buildList) {
+        console.log("📦 Package list: " + Array.from(repository.keys()).join(", "));
+        let repoTotal = 0;
+        for (const pkg of repository.keys()) {
             let fullList = parsePackageDependencies(pkg).filter((p) => repository.has(p));
             console.log("📦 Building " + pkg + " with dependencies: " + fullList.join(", "));
             let total = 0;
             for (const d of fullList) {
                 await buildPackage(repository.get(d)!);
                 total++;
-                console.log("⏳ Built " + total + " of " + fullList.length);
+                console.log("⏳ Built " + total + " of " + fullList.length + " dependnancies for target " + pkg + " (" + repoTotal + "/" + repository.size + ")");
             }
+            console.log("✅ Built " + total + " packages for target " + pkg);
+            repoTotal++;
         }
 
         // Deploy files
@@ -117,6 +120,14 @@ async function buildPackage(pkg: Package) {
             console.log("📦 -> Not cloned, cloning");
         }
         
+        // clear old packages from ~/packages/prolinux-nightly/${ARCH}
+        console.log("📦 -> Clearing old packages");
+        // todo this matches wrong (breeze-* matches breeze-grub etc)
+        exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-9999*`);
+        exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-dev-9999*`);
+        exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-libs-9999*`);
+        exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-docs-9999*`);
+        exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-lang-9999*`);
 
         console.log("🔧   -> Clone package repository");
         buildStep = `build-${pkg.name}-clone`;
@@ -124,12 +135,16 @@ async function buildPackage(pkg: Package) {
         exec(`git clone ${pkg.repo} ${pkgDir}/src/${pkg.name}`);        
 
         buildStep = `build-${pkg.name}-pre-patch`;
+        // copy patches/extra files from aports to src
+        exec(`cp -rv ${aportsPkgDir}/* ${pkgDir}/src/`);
+
         exec(`cp -v ${aportsPkgDir}/APKBUILD ${pkgDir}/APKBUILD`);
         const pkgVer = "9999_git" + (exec(`cd ${pkgDir}/src/${pkg.name} && git show -s --format=%ct`, false).toString().trim());
         console.log("🔧   -> Patching APKBUILD with pkgver " + pkgVer);
+
         buildStep = `build-${pkg.name}-patch`;
         exec(`sed -i '/pkgver=/c\pkgver=${pkgVer}' ${pkgDir}/APKBUILD`);
-        exec(`sed -i 's/ $pkgname-lang//g' ${pkgDir}/APKBUILD`);
+        exec(`sed -i 's/$pkgname-lang//g' ${pkgDir}/APKBUILD`);
         if(pkg.patches) {
             for (const patch of pkg.patches) {
                 console.log("🔧   -> Patching" + " with " + patch.cmd);
@@ -142,9 +157,20 @@ async function buildPackage(pkg: Package) {
 
         // build the package
         console.log("🔧   -> Building package");
-        buildStep = `build-${pkg.name}-abuild`;
+        buildStep = `build-${pkg.name}-apk-pre-abuild`;
         // prepare, deps, build, rootpkg, index
         exec(`sudo apk update`); // ensures we are using the latest packages we compiled earlier
+
+        // apk add packages from extraDepends
+        if(pkg.extraDepends) {
+            for (const dep of pkg.extraDepends) {
+                console.log("🔧   -> Installing extra dependency " + dep);
+                exec(`sudo apk add ${dep}`);
+            }
+        }
+
+        // abuild
+        buildStep = `build-${pkg.name}-abuild`;
         exec(`cd ${pkgDir} && abuild prepare`);
         exec(`cd ${pkgDir} && abuild deps`);
         exec(`cd ${pkgDir} && abuild build`);
@@ -152,11 +178,21 @@ async function buildPackage(pkg: Package) {
         exec(`cd ${pkgDir} && abuild index`);
         exec(`cd ${pkgDir} && abuild undeps`);
 
+        // apk del packages from extraDepends
+        buildStep = `build-${pkg.name}-apk-post-abuild`;
+        if(pkg.extraDepends) {
+            for (const dep of pkg.extraDepends) {
+                console.log("🔧   -> Removing extra dependency " + dep);
+                exec(`sudo apk del ${dep}`);
+            }
+        }
+
         builtList.push(pkg.name);
     } catch (e) {
-        console.error("❌ Failed to compile " + pkg.name);
+        console.error("❌ (buildPackage()) Failed to compile " + pkg.name);
         // remove pkg folder
-        exec("rm -rfv ${pkgDir}");
+        const pkgDir = path.join(WORKDIR, "prolinux-nightly", pkg.name);
+        exec(`rm -rf ${pkgDir}`);
         throw e;
     }
 }

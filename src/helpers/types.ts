@@ -7,4 +7,5 @@ export interface Package {
     repo: string;
     aports_repo: string;
     patches?: Patch[];
+    extraDepends?: string[];
 }

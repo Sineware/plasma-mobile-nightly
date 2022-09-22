@@ -33,6 +33,17 @@ export function parsePackageDependencies(packageName: string): string[] {
             }
             parsePackageDependencies(pkg).forEach(item => packageList.push(item))
         }
+        // add extra dependnencies
+        let extraDepends = repository.get(packageName)?.extraDepends;
+        if(extraDepends) {
+            for(let pkg of extraDepends) {
+                pkg = pkg.trim();
+                if(pkg.endsWith("-dev")) {
+                    pkg = pkg.slice(0, -4);
+                }
+                parsePackageDependencies(pkg).forEach(item => packageList.push(item))
+            }
+        }
         
         // add current package
         packageList.push(packageName.trim());
