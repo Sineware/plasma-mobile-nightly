@@ -107,10 +107,10 @@ async function buildPackage(pkg: Package) {
         // check if rebuilding is nessesary by compare rev-parse of local and remote
         
         try {
-            //const remoteRev = exec(`git -C ${pkgDir}/src/${pkg.name} rev-parse @{u}`, false).toString().trim();
-            //const localRev = exec(`git -C ${pkgDir}/src/${pkg.name} rev-parse @`, false).toString().trim();
-            const isUpToDate = exec(`git -C ${pkgDir}/src/${pkg.name} fetch --dry-run`, false).toString().trim() == "";
-            if (isUpToDate) {
+            exec(`git -C ${pkgDir}/src/${pkg.name} fetch`);
+            const remoteRev = exec(`git -C ${pkgDir}/src/${pkg.name} rev-parse @{u}`, false).toString().trim();
+            const localRev = exec(`git -C ${pkgDir}/src/${pkg.name} rev-parse @`, false).toString().trim();
+            if (remoteRev === localRev) {
                 console.log("📦 -> Already up to date (upstream), skipping");
                 return;
             } else {
