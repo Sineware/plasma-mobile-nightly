@@ -194,6 +194,7 @@ async function buildPackage(pkg: Package) {
     } catch (e) {
         console.error("❌ (buildPackage()) Failed to compile " + pkg.name);
         // remove pkg folder
+        exec(`apk del .makedepends-${pkg.name}`);
         const pkgDir = path.join(WORKDIR, "prolinux-nightly", pkg.name);
         exec(`rm -rf ${pkgDir}`);
         throw e;
