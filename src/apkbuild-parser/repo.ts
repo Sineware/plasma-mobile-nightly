@@ -87,7 +87,7 @@ export const repository = new Map<string,Package>([
     ["kded", { name: "kded", repo: "https://invent.kde.org/frameworks/kded.git", aports_repo: "community"}],
     ["kdelibs4support", { name: "kdelibs4support", repo: "https://invent.kde.org/frameworks/kdelibs4support.git", aports_repo: "community"}],
     ["kdesignerplugin", { name: "kdesignerplugin", repo: "https://invent.kde.org/frameworks/kdesignerplugin.git", aports_repo: "community"}],
-    ["kdesu", { name: "kdesu", repo: "https://invent.kde.org/frameworks/kdesu.git", aports_repo: "community", extraDepends: ["plasma-workspace-dev"]}],
+    //["kdesu", { name: "kdesu", repo: "https://invent.kde.org/frameworks/kdesu.git", aports_repo: "community", extraDepends: ["plasma-workspace-dev"]}], // failing because apkindex references old packages
     ["kdnssd", { name: "kdnssd", repo: "https://invent.kde.org/frameworks/kdnssd.git", aports_repo: "community"}],
     ["kdoctools", { name: "kdoctools", repo: "https://invent.kde.org/frameworks/kdoctools.git", aports_repo: "community"}],
     ["kemoticons", { name: "kemoticons", repo: "https://invent.kde.org/frameworks/kemoticons.git", aports_repo: "community"}],

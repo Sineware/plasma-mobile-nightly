@@ -121,14 +121,6 @@ async function buildPackage(pkg: Package) {
             console.log("📦 -> Not cloned, cloning");
         }
         
-        // clear old packages from ~/packages/prolinux-nightly/${ARCH}
-        console.log("📦 -> Clearing old packages");
-        // todo this matches wrong (breeze-* matches breeze-grub etc)
-        exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-9999*`);
-        exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-dev-9999*`);
-        exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-libs-9999*`);
-        exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-docs-9999*`);
-        exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-lang-9999*`);
 
         console.log("🔧   -> Clone package repository");
         buildStep = `build-${pkg.name}-clone`;
@@ -175,6 +167,16 @@ async function buildPackage(pkg: Package) {
         exec(`cd ${pkgDir} && abuild prepare`);
         exec(`cd ${pkgDir} && abuild deps`);
         exec(`cd ${pkgDir} && abuild build`);
+
+        // clear old packages from ~/packages/prolinux-nightly/${ARCH}
+        console.log("📦 -> Clearing old packages");
+        // todo this matches wrong (breeze-* matches breeze-grub etc)
+        exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-9999*`);
+        exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-dev-9999*`);
+        exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-libs-9999*`);
+        exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-docs-9999*`);
+        exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-lang-9999*`);
+
         exec(`cd ${pkgDir} && abuild rootpkg`);
         exec(`cd ${pkgDir} && abuild index`);
         exec(`cd ${pkgDir} && abuild undeps`);
