@@ -8,7 +8,7 @@ export const repository = new Map<string,Package>([
 
     // plasma
     ["bluedevil", { name: "bluedevil", repo: "https://invent.kde.org/plasma/bluedevil.git", aports_repo: "community", extraDepends: ["kcmutils-dev", "kdoctools-dev"]}],
-    ["breeze", { name: "breeze", repo: "https://invent.kde.org/plasma/breeze.git", aports_repo: "community"}],
+    ["breeze", { name: "breeze", repo: "https://invent.kde.org/plasma/breeze.git", aports_repo: "community", extraDepends: ["kcmutils-dev"]}],
     ["breeze-grub", { name: "breeze-grub", repo: "https://invent.kde.org/plasma/breeze-grub.git", aports_repo: "community"}],
     ["breeze-gtk", { name: "breeze-gtk", repo: "https://invent.kde.org/plasma/breeze-gtk.git", aports_repo: "community"}],
     ["breeze-plymouth", { name: "breeze-plymouth", repo: "https://invent.kde.org/plasma/breeze-plymouth.git", aports_repo: "community"}],
