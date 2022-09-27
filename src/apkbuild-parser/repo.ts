@@ -1,5 +1,6 @@
 import {Package, Patch} from "../helpers/types";
 const PATCH_PLASMA_WORKSPACE_REMOVE_0001PATCH: Patch = {cmd: 'truncate -s 0 ./prolinux-nightly/plasma-workspace/src/0001-widgetexplorer-Dont-recurse-into-applets-containments.patch'};
+const PATCH_KWAYLAND_REMOVE_0001PATCH: Patch = {cmd: 'truncate -s 0 ./prolinux-nightly/kwayland/src/0001-PlasmaWindowManagement-Avoid-unbounded-recursion-and-delay-in-readData.patch'};
 
 // List of packages and their git repositories
 export const repository = new Map<string,Package>([
@@ -28,7 +29,7 @@ export const repository = new Map<string,Package>([
     ["ksshaskpass", { name: "ksshaskpass", repo: "https://invent.kde.org/plasma/ksshaskpass.git", aports_repo: "community"}],
     ["kwallet-pam", { name: "kwallet-pam", repo: "https://invent.kde.org/plasma/kwallet-pam.git", aports_repo: "community"}],
     ["kwayland-integration", { name: "kwayland-integration", repo: "https://invent.kde.org/plasma/kwayland-integration.git", aports_repo: "community"}],
-    ["kwayland", { name: "kwayland", repo: "https://invent.kde.org/frameworks/kwayland.git", aports_repo: "community"}],
+    ["kwayland", { name: "kwayland", repo: "https://invent.kde.org/frameworks/kwayland.git", aports_repo: "community", patches: [PATCH_KWAYLAND_REMOVE_0001PATCH]}],
     ["kwin", { name: "kwin", repo: "https://invent.kde.org/plasma/kwin.git", aports_repo: "community"}],
     ["kwrited", { name: "kwrited", repo: "https://invent.kde.org/plasma/kwrited.git", aports_repo: "community"}],
     ["layer-shell-qt", { name: "layer-shell-qt", repo: "https://invent.kde.org/plasma/layer-shell-qt.git", aports_repo: "community"}],
