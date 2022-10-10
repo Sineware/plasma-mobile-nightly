@@ -44,7 +44,7 @@ export const repository = new Map<string,Package>([
     ["plasma-integration", { name: "plasma-integration", repo: "https://invent.kde.org/plasma/plasma-integration.git", aports_repo: "community"}],
     ["plasma-mobile", { name: "plasma-mobile", repo: "https://invent.kde.org/plasma/plasma-mobile.git", aports_repo: "community"}],
     ["plasma-nano", { name: "plasma-nano", repo: "https://invent.kde.org/plasma/plasma-nano.git", aports_repo: "community"}],
-    ["plasma-nm", { name: "plasma-nm", repo: "https://invent.kde.org/plasma/plasma-nm.git", aports_repo: "community", extraDepends: ["kcmutils-dev"]}],
+    ["plasma-nm", { name: "plasma-nm", repo: "https://invent.kde.org/plasma/plasma-nm.git", aports_repo: "community", extraDepends: ["kcmutils-dev", "kdeclarative-dev"]}],
     ["plasma-pa", { name: "plasma-pa", repo: "https://invent.kde.org/plasma/plasma-pa.git", aports_repo: "community"}],
     ["plasma-sdk", { name: "plasma-sdk", repo: "https://invent.kde.org/plasma/plasma-sdk.git", aports_repo: "community"}],
     ["plasma-systemmonitor", { name: "plasma-systemmonitor", repo: "https://invent.kde.org/plasma/plasma-systemmonitor.git", aports_repo: "community"}],
