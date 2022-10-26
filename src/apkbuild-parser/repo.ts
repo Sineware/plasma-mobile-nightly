@@ -78,7 +78,7 @@ export const repository = new Map<string,Package>([
     ["kcodecs", { name: "kcodecs", repo: "https://invent.kde.org/frameworks/kcodecs.git", aports_repo: "community"}],
     ["kcompletion", { name: "kcompletion", repo: "https://invent.kde.org/frameworks/kcompletion.git", aports_repo: "community"}],
     ["kconfig", { name: "kconfig", repo: "https://invent.kde.org/frameworks/kconfig.git", aports_repo: "community"}],
-    ["kconfigwidgets", { name: "kconfigwidgets", repo: "https://invent.kde.org/frameworks/kconfigwidgets.git", aports_repo: "community"}],
+    ["kconfigwidgets", { name: "kconfigwidgets", repo: "https://invent.kde.org/frameworks/kconfigwidgets.git", aports_repo: "community", extraDepends: ["kguiaddons"]}],
     ["kcontacts", { name: "kcontacts", repo: "https://invent.kde.org/frameworks/kcontacts.git", aports_repo: "community"}],
     ["kcoreaddons", { name: "kcoreaddons", repo: "https://invent.kde.org/frameworks/kcoreaddons.git", aports_repo: "community"}],
     ["kcrash", { name: "kcrash", repo: "https://invent.kde.org/frameworks/kcrash.git", aports_repo: "community"}],
