@@ -1,5 +1,6 @@
 /*
-    plasma-mobile-nightly-build-script: Sineware ProLinux project to produce nightly development packages of Plasma Mobile
+    Plasma Mobile Nightly
+    Sineware ProLinux project to produce nightly development packages of Plasma Mobile
     Copyright (C) 2022  Seshan Ravikumar
 
     This program is free software: you can redistribute it and/or modify
@@ -18,23 +19,60 @@
 require('dotenv').config()
 
 import path from "path";
+import fs from "fs";
 import { parsePackageDependencies } from "./apkbuild-parser/parser";
 import { repository } from "./apkbuild-parser/repo";
 import exec from "./helpers/exec";
 import { Package } from "./helpers/types";
 
-const WORKDIR = path.join(process.cwd(), "workdir");
+//const WORKDIR = path.join(process.cwd(), "workdir");
 const ABUILD_WRAPPER = path.join(__dirname, "abuild-wrapper.sh");
 const ALPINE_APORTS_REPO = "https://gitlab.alpinelinux.org/alpine/aports.git";
-const ARCH = exec("uname -m", false).toString().trim();
-if(process.env.BUILD_ALL === "true") {
+
+const ARCH = process.env.SW_ARCH; // x86_64, aarch64
+const CHROOT_DIR = process.env.SW_CHROOT_DIR; 
+
+// ----------------- //
+
+console.log("🔨 Verifying build environment...");
+if (!ARCH || !CHROOT_DIR) {
+    console.error("❌ Environment variables are not set");
     process.exit(1);
 }
+// check if chroot dir exists
+if (!fs.existsSync(CHROOT_DIR)) {
+    console.error("❌ CHROOT_DIR does not exist");
+    process.exit(1);
+}
+
+// Runs comamnd as root in chroot
+const execChroot = (cmd: string) => {
+    console.log(`🔨 Entering chroot (root)`);
+    return exec(`sudo chroot ${CHROOT_DIR} su root -c "${cmd}"`);
+}
+// Runs command as swadmin in chroot
+const execChrootUser = (cmd: string) => {
+    console.log(`🔨 Entering chroot (swadmin)`);
+    return exec(`sudo chroot ${CHROOT_DIR} su swadmin -c "${cmd}"`);
+}
+
+// check if abuild is installed
+try {
+    execChrootUser("abuild -h");
+} catch (e) {
+    console.error(e);
+    console.error("❌ Failed to run abuild in chroot!");
+    process.exit(1);
+}
+console.log("✅ Build environment verified");
+
+const CHROOT_DIR_SWADMIN_HOME = path.join(CHROOT_DIR, "home", "swadmin");
+const WORKDIR = path.join(CHROOT_DIR_SWADMIN_HOME, "workdir");
+
+// ----------------- //
+
 let builtList: string[] = [];
-let buildList = [
-    "plasma-wayland-protocols", // required by kidletime, a dependancy of plasma-mobile
-    "plasma-mobile"
-];
+let buildList = [];
 
 console.log("WORKDIR: " + WORKDIR);
 console.log("ABUILD_WRAPPER: " + ABUILD_WRAPPER);
@@ -49,19 +87,14 @@ let buildStep = "";
         process.chdir(WORKDIR);
 
         console.log("🔧 Upgrading Alpine");
-        exec("sudo apk upgrade");
+        execChroot("apk upgrade");
 
         // Clone aports repository from git, or pull if it already exists
         console.log("📦 Cloning aports repository");
         buildStep = "clone-aports";
         exec(`git -C aports pull || git clone ${ALPINE_APORTS_REPO} aports`);
 
-        exec("mkdir -pv prolinux-nightly");
-        //exec("rm -rfv prolinux-nightly/*"); // todo speed up build by checking if new git commits
-
-        // clear repository folder
-        //exec("rm -rfv ~/packages/prolinux-nightly/*");
-        
+        exec("mkdir -pv prolinux-nightly");        
 
         console.log("📦 Package list: " + Array.from(repository.keys()).join(", "));
         let repoTotal = 0;
@@ -72,7 +105,7 @@ let buildStep = "";
             for (const d of fullList) {
                 await buildPackage(repository.get(d)!);
                 total++;
-                console.log("⏳ Built " + total + " of " + fullList.length + " dependnancies for target " + pkg + " (" + repoTotal + "/" + repository.size + ")");
+                console.log("⏳ Built " + total + " of " + fullList.length + " dependencies for target " + pkg + " (" + repoTotal + "/" + repository.size + ")");
             }
             console.log("✅ Built " + total + " packages for target " + pkg);
             repoTotal++;
@@ -81,7 +114,7 @@ let buildStep = "";
         // Deploy files
         buildStep = "deploy";
         console.log("🚀 Deploying files");
-        exec(`rsync -aHAXxv --delete --progress ~/packages/prolinux-nightly/${ARCH} espimac:/var/www/sineware/repo/alpine/prolinux-nightly/`);
+        exec(`rsync -aHAXxv --delete --progress ${CHROOT_DIR_SWADMIN_HOME}/packages/prolinux-nightly/${ARCH} espimac:/var/www/sineware/repo/alpine/prolinux-nightly/`);
 
         buildStep = `finish`;
     } catch (e) {
@@ -104,7 +137,10 @@ async function buildPackage(pkg: Package) {
         const pkgDir = path.join(WORKDIR, "prolinux-nightly", pkg.name);
         const aportsPkgDir = path.join(WORKDIR, "aports", pkg.aports_repo, pkg.name);
 
-        // check if rebuilding is nessesary by compare rev-parse of local and remote
+        const pkgDirChroot = path.join("/home/swadmin/workdir", "prolinux-nightly", pkg.name);
+        const aportsPkgDirChroot = path.join("/home/swadmin/workdir", "aports", pkg.aports_repo, pkg.name);
+
+        // check if rebuilding is necessary by compare rev-parse of local and remote
         
         try {
             exec(`git -C ${pkgDir}/src/${pkg.name} fetch`);
@@ -152,41 +188,41 @@ async function buildPackage(pkg: Package) {
         console.log("🔧   -> Building package");
         buildStep = `build-${pkg.name}-apk-pre-abuild`;
         // prepare, deps, build, rootpkg, index
-        exec(`sudo apk update`); // ensures we are using the latest packages we compiled earlier
+        execChroot(`apk update`); // ensures we are using the latest packages we compiled earlier
 
         // apk add packages from extraDepends
         if(pkg.extraDepends) {
             for (const dep of pkg.extraDepends) {
                 console.log("🔧   -> Installing extra dependency " + dep);
-                exec(`sudo apk add ${dep}`);
+                execChroot(`apk add ${dep}`);
             }
         }
 
         // abuild
         buildStep = `build-${pkg.name}-abuild`;
-        exec(`cd ${pkgDir} && abuild prepare`);
-        exec(`cd ${pkgDir} && abuild deps`);
-        exec(`cd ${pkgDir} && abuild build`);
+        execChrootUser(`cd ${pkgDirChroot} && abuild prepare`);
+        execChroot(`cd ${pkgDirChroot} && abuild -F deps`);
+        execChrootUser(`cd ${pkgDirChroot} && abuild build`);
 
         // clear old packages from ~/packages/prolinux-nightly/${ARCH}
         console.log("📦 -> Clearing old packages");
         // todo this matches wrong (breeze-* matches breeze-grub etc)
-        exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-9999*`);
-        exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-dev-9999*`);
-        exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-libs-9999*`);
-        exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-doc-9999*`);
-        exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-lang-9999*`);
+        exec(`rm -rfv ${CHROOT_DIR_SWADMIN_HOME}/packages/prolinux-nightly/${ARCH}/${pkg.name}-9999*`);
+        exec(`rm -rfv ${CHROOT_DIR_SWADMIN_HOME}/packages/prolinux-nightly/${ARCH}/${pkg.name}-dev-9999*`);
+        exec(`rm -rfv ${CHROOT_DIR_SWADMIN_HOME}/packages/prolinux-nightly/${ARCH}/${pkg.name}-libs-9999*`);
+        exec(`rm -rfv ${CHROOT_DIR_SWADMIN_HOME}/packages/prolinux-nightly/${ARCH}/${pkg.name}-doc-9999*`);
+        exec(`rm -rfv ${CHROOT_DIR_SWADMIN_HOME}/packages/prolinux-nightly/${ARCH}/${pkg.name}-lang-9999*`);
 
-        exec(`cd ${pkgDir} && abuild rootpkg`);
-        exec(`cd ${pkgDir} && abuild index`);
-        exec(`cd ${pkgDir} && abuild undeps`);
+        execChrootUser(`cd ${pkgDirChroot} && abuild rootpkg`);
+        execChrootUser(`cd ${pkgDirChroot} && abuild index`);
+        execChroot(`cd ${pkgDirChroot} && abuild -F undeps`);
 
         // apk del packages from extraDepends
         buildStep = `build-${pkg.name}-apk-post-abuild`;
         if(pkg.extraDepends) {
             for (const dep of pkg.extraDepends) {
                 console.log("🔧   -> Removing extra dependency " + dep);
-                exec(`sudo apk del ${dep}`);
+                execChroot(`apk del ${dep}`);
             }
         }
 
@@ -194,9 +230,9 @@ async function buildPackage(pkg: Package) {
     } catch (e) {
         console.error("❌ (buildPackage()) Failed to compile " + pkg.name);
         // remove pkg folder
-        exec(`sudo apk del .makedepends-${pkg.name}`);
+        execChroot(`apk del .makedepends-${pkg.name}`);
         const pkgDir = path.join(WORKDIR, "prolinux-nightly", pkg.name);
-        exec(`rm -rf ${pkgDir}`);
+        //exec(`rm -rf ${pkgDir}`);
         throw e;
     }
 }
