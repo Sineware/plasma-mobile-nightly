@@ -164,9 +164,9 @@ async function buildPackage(pkg: Package) {
 
         // abuild
         buildStep = `build-${pkg.name}-abuild`;
-        exec(`cd ${pkgDir} && abuild prepare`);
-        exec(`cd ${pkgDir} && abuild deps`);
-        exec(`cd ${pkgDir} && abuild build`);
+        exec(`cd ${pkgDir} && abuild -F prepare`);
+        exec(`cd ${pkgDir} && abuild -F deps`);
+        exec(`cd ${pkgDir} && abuild -F build`);
 
         // clear old packages from ~/packages/prolinux-nightly/${ARCH}
         console.log("📦 -> Clearing old packages");
@@ -177,9 +177,9 @@ async function buildPackage(pkg: Package) {
         exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-doc-9999*`);
         exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-lang-9999*`);
 
-        exec(`cd ${pkgDir} && abuild rootpkg`);
-        exec(`cd ${pkgDir} && abuild index`);
-        exec(`cd ${pkgDir} && abuild undeps`);
+        exec(`cd ${pkgDir} && abuild -F rootpkg`);
+        exec(`cd ${pkgDir} && abuild -F index`);
+        exec(`cd ${pkgDir} && abuild -F undeps`);
 
         // apk del packages from extraDepends
         buildStep = `build-${pkg.name}-apk-post-abuild`;
