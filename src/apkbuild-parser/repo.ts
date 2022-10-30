@@ -1,6 +1,7 @@
 import {Package, Patch} from "../helpers/types";
 const PATCH_PLASMA_WORKSPACE_REMOVE_0001PATCH: Patch = {cmd: 'truncate -s 0 ./prolinux-nightly/plasma-workspace/src/0001-widgetexplorer-Dont-recurse-into-applets-containments.patch'};
 const PATCH_KWAYLAND_REMOVE_0001PATCH: Patch = {cmd: 'truncate -s 0 ./prolinux-nightly/kwayland/src/0001-PlasmaWindowManagement-Avoid-unbounded-recursion-and-delay-in-readData.patch'};
+const PATCH_KIMAGEFORMATS_REMOVE_0001PATCH: Patch = {cmd 'truncate -s ./prolinux-nightly/kimageformats/src/0001-avif-revert-previous-commit.patch'}
 
 // List of packages and their git repositories
 export const repository = new Map<string,Package>([
@@ -100,7 +101,7 @@ export const repository = new Map<string,Package>([
     ["ki18n", { name: "ki18n", repo: "https://invent.kde.org/frameworks/ki18n.git", aports_repo: "community"}],
     ["kiconthemes", { name: "kiconthemes", repo: "https://invent.kde.org/frameworks/kiconthemes.git", aports_repo: "community"}],
     ["kidletime", { name: "kidletime", repo: "https://invent.kde.org/frameworks/kidletime.git", aports_repo: "community", extraDepends: ["plasma-wayland-protocols"]}],
-    ["kimageformats", { name: "kimageformats", repo: "https://invent.kde.org/frameworks/kimageformats.git", aports_repo: "community"}],
+    ["kimageformats", { name: "kimageformats", repo: "https://invent.kde.org/frameworks/kimageformats.git", aports_repo: "community", patches: [PATCH_KIMAGEFORMATS_REMOVE_0001PATCH]}],
     ["kinit", { name: "kinit", repo: "https://invent.kde.org/frameworks/kinit.git", aports_repo: "community"}],
     ["kio", { name: "kio", repo: "https://invent.kde.org/frameworks/kio.git", aports_repo: "community"}],
     ["kirigami2", { name: "kirigami2", repo: "https://invent.kde.org/frameworks/kirigami.git", aports_repo: "community"}],
