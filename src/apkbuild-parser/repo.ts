@@ -1,7 +1,7 @@
 import {Package, Patch} from "../helpers/types";
 const PATCH_PLASMA_WORKSPACE_REMOVE_0001PATCH: Patch = {cmd: 'truncate -s 0 ./prolinux-nightly/plasma-workspace/src/0001-widgetexplorer-Dont-recurse-into-applets-containments.patch'};
 const PATCH_KWAYLAND_REMOVE_0001PATCH: Patch = {cmd: 'truncate -s 0 ./prolinux-nightly/kwayland/src/0001-PlasmaWindowManagement-Avoid-unbounded-recursion-and-delay-in-readData.patch'};
-const PATCH_KIMAGEFORMATS_REMOVE_0001PATCH: Patch = {cmd 'truncate -s ./prolinux-nightly/kimageformats/src/0001-avif-revert-previous-commit.patch'}
+const PATCH_KIMAGEFORMATS_REMOVE_0001PATCH: Patch = {cmd: 'truncate -s ./prolinux-nightly/kimageformats/src/0001-avif-revert-previous-commit.patch'}
 
 // List of packages and their git repositories
 export const repository = new Map<string,Package>([
