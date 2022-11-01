@@ -176,6 +176,7 @@ async function buildPackage(pkg: Package) {
         exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-libs-9999*`);
         exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-doc-9999*`);
         exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-lang-9999*`);
+        exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-dbg-9999*`);
 
         exec(`cd ${pkgDir} && abuild -F rootpkg`);
         exec(`cd ${pkgDir} && abuild -F index`);
