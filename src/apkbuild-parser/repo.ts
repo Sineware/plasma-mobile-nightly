@@ -26,7 +26,7 @@ export const repository = new Map<string,Package>([
     ["kinfocenter", { name: "kinfocenter", repo: "https://invent.kde.org/plasma/kinfocenter.git", aports_repo: "community"}],
     ["kmenuedit", { name: "kmenuedit", repo: "https://invent.kde.org/plasma/kmenuedit.git", aports_repo: "community"}],
     ["kscreen", { name: "kscreen", repo: "https://invent.kde.org/plasma/kscreen.git", aports_repo: "community", extraDepends: ["layer-shell-qt-dev"]}],
-    ["kscreenlocker", { name: "kscreenlocker", repo: "https://invent.kde.org/plasma/kscreenlocker.git", aports_repo: "community"}],
+    ["kscreenlocker", { name: "kscreenlocker", repo: "https://invent.kde.org/plasma/kscreenlocker.git", aports_repo: "community", extraDepends: ["libkscreen-dev"]}],
     ["ksshaskpass", { name: "ksshaskpass", repo: "https://invent.kde.org/plasma/ksshaskpass.git", aports_repo: "community"}],
     ["kwallet-pam", { name: "kwallet-pam", repo: "https://invent.kde.org/plasma/kwallet-pam.git", aports_repo: "community"}],
     ["kwayland-integration", { name: "kwayland-integration", repo: "https://invent.kde.org/plasma/kwayland-integration.git", aports_repo: "community"}],
