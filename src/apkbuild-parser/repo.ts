@@ -100,7 +100,7 @@ export const repository = new Map<string,Package>([
     ["khtml", { name: "khtml", repo: "https://invent.kde.org/frameworks/khtml.git", aports_repo: "community"}],
     ["ki18n", { name: "ki18n", repo: "https://invent.kde.org/frameworks/ki18n.git", aports_repo: "community"}],
     ["kiconthemes", { name: "kiconthemes", repo: "https://invent.kde.org/frameworks/kiconthemes.git", aports_repo: "community"}],
-    ["kidletime", { name: "kidletime", repo: "https://invent.kde.org/frameworks/kidletime.git", aports_repo: "community", extraDepends: ["plasma-wayland-protocols"]}],
+    ["kidletime", { name: "kidletime", repo: "https://invent.kde.org/frameworks/kidletime.git", aports_repo: "community", extraDepends: ["plasma-wayland-protocols", "wayland-protocols"]}],
     ["kimageformats", { name: "kimageformats", repo: "https://invent.kde.org/frameworks/kimageformats.git", aports_repo: "community", patches: [PATCH_KIMAGEFORMATS_REMOVE_0001PATCH]}],
     ["kinit", { name: "kinit", repo: "https://invent.kde.org/frameworks/kinit.git", aports_repo: "community"}],
     ["kio", { name: "kio", repo: "https://invent.kde.org/frameworks/kio.git", aports_repo: "community"}],
