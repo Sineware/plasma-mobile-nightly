@@ -125,7 +125,14 @@ async function buildPackage(pkg: Package) {
         console.log("🔧   -> Clone package repository");
         buildStep = `build-${pkg.name}-clone`;
         exec(`mkdir -pv ${pkgDir}/src/${pkg.name}`);
-        exec(`git clone ${pkg.repo} ${pkgDir}/src/${pkg.name}`);        
+        exec(`git clone ${pkg.repo} ${pkgDir}/src/${pkg.name}`);  
+        
+        // Check if git commit message contains GIT_SILENT
+        const gitLog = exec(`git -C ${pkgDir}/src/${pkg.name} log -1 --pretty=%B`, false).toString().trim();
+        if (gitLog.includes("GIT_SILENT")) {
+            console.log("📦 -> GIT_SILENT found, skipping");
+            return;
+        }
 
         buildStep = `build-${pkg.name}-pre-patch`;
         // copy patches/extra files from aports to src
