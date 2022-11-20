@@ -72,7 +72,7 @@ let buildStep = "";
             for (const d of fullList) {
                 await buildPackage(repository.get(d)!);
                 total++;
-                console.log("⏳ Built " + total + " of " + fullList.length + " dependnancies for target " + pkg + " (" + repoTotal + "/" + repository.size + ")");
+                console.log("⏳ Built " + total + " of " + fullList.length + " dependencies for target " + pkg + " (" + repoTotal + "/" + repository.size + ")");
             }
             console.log("✅ Built " + total + " packages for target " + pkg);
             repoTotal++;
