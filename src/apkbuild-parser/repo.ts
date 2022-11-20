@@ -15,7 +15,7 @@ export const repository = new Map<string,Package>([
     ["breeze-grub", { name: "breeze-grub", repo: "https://invent.kde.org/plasma/breeze-grub.git", aports_repo: "community"}],
     ["breeze-gtk", { name: "breeze-gtk", repo: "https://invent.kde.org/plasma/breeze-gtk.git", aports_repo: "community"}],
     ["breeze-plymouth", { name: "breeze-plymouth", repo: "https://invent.kde.org/plasma/breeze-plymouth.git", aports_repo: "community"}],
-    //["discover", { name: "discover", repo: "https://invent.kde.org/plasma/discover.git", aports_repo: "community", extraDepends: ["purpose-dev"]}], // todo: alpine patches broken
+    ["discover", { name: "discover", repo: "https://invent.kde.org/plasma/discover.git", aports_repo: "community", extraDepends: ["purpose-dev"], skipBuild: true}], // todo: alpine patches broken
     ["drkonqi", { name: "drkonqi", repo: "https://invent.kde.org/plasma/drkonqi.git", aports_repo: "community", extraDepends: ["kuserfeedback-dev"]}],
     ["kactivitymanagerd", { name: "kactivitymanagerd", repo: "https://invent.kde.org/plasma/kactivitymanagerd.git", aports_repo: "community"}],
     ["kde-cli-tools", { name: "kde-cli-tools", repo: "https://invent.kde.org/plasma/kde-cli-tools.git", aports_repo: "community"}],
@@ -47,7 +47,7 @@ export const repository = new Map<string,Package>([
     ["plasma-mobile", { name: "plasma-mobile", repo: "https://invent.kde.org/plasma/plasma-mobile.git", aports_repo: "community"}],
     ["plasma-nano", { name: "plasma-nano", repo: "https://invent.kde.org/plasma/plasma-nano.git", aports_repo: "community"}],
     ["plasma-nm", { name: "plasma-nm", repo: "https://invent.kde.org/plasma/plasma-nm.git", aports_repo: "community", extraDepends: ["kcmutils-dev", "kdeclarative-dev"]}],
-    //["plasma-pa", { name: "plasma-pa", repo: "https://invent.kde.org/plasma/plasma-pa.git", aports_repo: "community"}],
+    ["plasma-pa", { name: "plasma-pa", repo: "https://invent.kde.org/plasma/plasma-pa.git", aports_repo: "community", skipBuild: true}],
     ["plasma-sdk", { name: "plasma-sdk", repo: "https://invent.kde.org/plasma/plasma-sdk.git", aports_repo: "community"}],
     ["plasma-systemmonitor", { name: "plasma-systemmonitor", repo: "https://invent.kde.org/plasma/plasma-systemmonitor.git", aports_repo: "community"}],
     ["plasma-thunderbolt", { name: "plasma-thunderbolt", repo: "https://invent.kde.org/plasma/plasma-thunderbolt.git", aports_repo: "community"}],
@@ -86,11 +86,11 @@ export const repository = new Map<string,Package>([
     ["kcrash", { name: "kcrash", repo: "https://invent.kde.org/frameworks/kcrash.git", aports_repo: "community"}],
     ["kdav", { name: "kdav", repo: "https://invent.kde.org/frameworks/kdav.git", aports_repo: "community"}],
     ["kdbusaddons", { name: "kdbusaddons", repo: "https://invent.kde.org/frameworks/kdbusaddons.git", aports_repo: "community"}],
-    //["kdeclarative", { name: "kdeclarative", repo: "https://invent.kde.org/frameworks/kdeclarative.git", aports_repo: "community"}],
+    ["kdeclarative", { name: "kdeclarative", repo: "https://invent.kde.org/frameworks/kdeclarative.git", aports_repo: "community", skipBuild: true}],
     ["kded", { name: "kded", repo: "https://invent.kde.org/frameworks/kded.git", aports_repo: "community"}],
     ["kdelibs4support", { name: "kdelibs4support", repo: "https://invent.kde.org/frameworks/kdelibs4support.git", aports_repo: "community"}],
     ["kdesignerplugin", { name: "kdesignerplugin", repo: "https://invent.kde.org/frameworks/kdesignerplugin.git", aports_repo: "community"}],
-    //["kdesu", { name: "kdesu", repo: "https://invent.kde.org/frameworks/kdesu.git", aports_repo: "community", extraDepends: ["plasma-workspace-dev"]}], // failing because apkindex references old packages
+    ["kdesu", { name: "kdesu", repo: "https://invent.kde.org/frameworks/kdesu.git", aports_repo: "community", extraDepends: ["plasma-workspace-dev"], skipBuild: true}], // failing because apkindex references old packages
     ["kdnssd", { name: "kdnssd", repo: "https://invent.kde.org/frameworks/kdnssd.git", aports_repo: "community"}],
     ["kdoctools", { name: "kdoctools", repo: "https://invent.kde.org/frameworks/kdoctools.git", aports_repo: "community"}],
     ["kemoticons", { name: "kemoticons", repo: "https://invent.kde.org/frameworks/kemoticons.git", aports_repo: "community"}],
@@ -134,7 +134,7 @@ export const repository = new Map<string,Package>([
     ["kxmlrpcclient", { name: "kxmlrpcclient", repo: "https://invent.kde.org/frameworks/kxmlrpcclient.git", aports_repo: "community"}],
     ["modemmanager-qt", { name: "modemmanager-qt", repo: "https://invent.kde.org/frameworks/modemmanager-qt.git", aports_repo: "community"}],
     ["networkmanager-qt", { name: "networkmanager-qt", repo: "https://invent.kde.org/frameworks/networkmanager-qt.git", aports_repo: "community"}],
-    //["oxygen-icons", { name: "oxygen-icons", repo: "https://invent.kde.org/frameworks/oxygen-icons5.git", aports_repo: "community"}],
+    ["oxygen-icons", { name: "oxygen-icons", repo: "https://invent.kde.org/frameworks/oxygen-icons5.git", aports_repo: "community", skipBuild: true}],
     ["plasma-framework", { name: "plasma-framework", repo: "https://invent.kde.org/frameworks/plasma-framework.git", aports_repo: "community"}],
     ["prison", { name: "prison", repo: "https://invent.kde.org/frameworks/prison.git", aports_repo: "community"}],
     ["purpose", { name: "purpose", repo: "https://invent.kde.org/frameworks/purpose.git", aports_repo: "community"}],
@@ -147,7 +147,7 @@ export const repository = new Map<string,Package>([
     
     // plasma mobile gear
     ["alligator", { name: "alligator", repo: "https://invent.kde.org/plasma-mobile/alligator.git", aports_repo: "community"}],
-    //["angelfish", { name: "angelfish", repo: "https://invent.kde.org/plasma-mobile/angelfish.git", aports_repo: "community"}],
+    ["angelfish", { name: "angelfish", repo: "https://invent.kde.org/plasma-mobile/angelfish.git", aports_repo: "community", skipBuild: true}],
     ["audiotube", { name: "audiotube", repo: "https://invent.kde.org/plasma-mobile/audiotube.git", aports_repo: "community"}],
     ["calindori", { name: "calindori", repo: "https://invent.kde.org/plasma-mobile/calindori.git", aports_repo: "community"}],
     ["kalk", { name: "kalk", repo: "https://invent.kde.org/plasma-mobile/kalk.git", aports_repo: "community"}],
@@ -156,7 +156,7 @@ export const repository = new Map<string,Package>([
     ["keysmith", { name: "keysmith", repo: "https://invent.kde.org/utilities/keysmith.git", aports_repo: "community"}],
     ["khealthcertificate", { name: "khealthcertificate", repo: "https://invent.kde.org/pim/khealthcertificate.git", aports_repo: "community", extraDepends: ["ki18n-dev"]}],
     ["kirigami-addons", { name: "kirigami-addons", repo: "https://invent.kde.org/libraries/kirigami-addons.git", aports_repo: "community"}],
-    //["koko", { name: "koko", repo: "https://invent.kde.org/graphics/koko.git", aports_repo: "community"}],
+    ["koko", { name: "koko", repo: "https://invent.kde.org/graphics/koko.git", aports_repo: "community", skipBuild: true}],
     ["kongress", { name: "kongress", repo: "https://invent.kde.org/utilities/kongress.git", aports_repo: "community"}],
     ["krecorder", { name: "krecorder", repo: "https://invent.kde.org/plasma-mobile/krecorder.git", aports_repo: "community"}],
     ["ktrip", { name: "ktrip", repo: "https://invent.kde.org/utilities/ktrip.git", aports_repo: "community"}],
@@ -168,7 +168,7 @@ export const repository = new Map<string,Package>([
     ["plasma-settings", { name: "plasma-settings", repo: "https://invent.kde.org/plasma-mobile/plasma-settings.git", aports_repo: "community"}],
     ["plasmatube", { name: "plasmatube", repo: "https://invent.kde.org/plasma-mobile/plasmatube.git", aports_repo: "community"}],
     ["qmlkonsole", { name: "qmlkonsole", repo: "https://invent.kde.org/plasma-mobile/qmlkonsole.git", aports_repo: "community"}],
-    //["spacebar", { name: "spacebar", repo: "https://invent.kde.org/plasma-mobile/spacebar.git", aports_repo: "community", extraDepends: ["c-ares"]}],
+    ["spacebar", { name: "spacebar", repo: "https://invent.kde.org/plasma-mobile/spacebar.git", aports_repo: "community", extraDepends: ["c-ares"], skipBuild: true}],
     ["tokodon", { name: "tokodon", repo: "https://invent.kde.org/network/tokodon.git", aports_repo: "community"}],
     ["vakzination", { name: "vakzination", repo: "https://invent.kde.org/plasma-mobile/vakzination.git", aports_repo: "community"}],
 ]);

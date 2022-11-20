@@ -31,10 +31,6 @@ if(process.env.BUILD_ALL === "true") {
     process.exit(1);
 }
 let builtList: string[] = [];
-let buildList = [
-    "plasma-wayland-protocols", // required by kidletime, a dependancy of plasma-mobile
-    "plasma-mobile"
-];
 
 console.log("WORKDIR: " + WORKDIR);
 console.log("ABUILD_WRAPPER: " + ABUILD_WRAPPER);
@@ -62,10 +58,16 @@ let buildStep = "";
         // clear repository folder
         //exec("rm -rfv ~/packages/prolinux-nightly/*");
         
-
-        console.log("📦 Package list: " + Array.from(repository.keys()).join(", "));
+        // Get list from repository or the environment variable PACKAGE_LIST
+        let packages: string[] = [];
+        if(process.env.PACKAGE_LIST) {
+            packages = process.env.PACKAGE_LIST.split(",");
+        } else {
+            packages = Array.from(repository.keys());
+        }
+        console.log("📦 Package list: " + packages.join(", "));
         let repoTotal = 0;
-        for (const pkg of repository.keys()) {
+        for (const pkg of packages) {
             let fullList = parsePackageDependencies(pkg).filter((p) => repository.has(p));
             console.log("📦 Building " + pkg + " with dependencies: " + fullList.join(", "));
             let total = 0;
@@ -96,6 +98,11 @@ async function buildPackage(pkg: Package) {
         // return if already built
         if (builtList.includes(pkg.name)) {
             console.log("📦 -> Already built, skipping");
+            return;
+        }
+        // return if skipBuild is true
+        if (pkg.skipBuild && !process.env.PACKAGE_LIST?.split(",").includes(pkg.name)) {
+            console.log("📦 -> Skip build is true, skipping");
             return;
         }
 

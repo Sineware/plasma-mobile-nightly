@@ -8,4 +8,5 @@ export interface Package {
     aports_repo: string;
     patches?: Patch[];
     extraDepends?: string[];
+    skipBuild?: boolean;
 }
