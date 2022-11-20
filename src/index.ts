@@ -27,9 +27,7 @@ const WORKDIR = path.join(process.cwd(), "workdir");
 const ABUILD_WRAPPER = path.join(__dirname, "abuild-wrapper.sh");
 const ALPINE_APORTS_REPO = "https://gitlab.alpinelinux.org/alpine/aports.git";
 const ARCH = exec("uname -m", false).toString().trim();
-if(process.env.BUILD_ALL === "true") {
-    process.exit(1);
-}
+
 let builtList: string[] = [];
 
 console.log("WORKDIR: " + WORKDIR);
@@ -58,26 +56,35 @@ let buildStep = "";
         // clear repository folder
         //exec("rm -rfv ~/packages/prolinux-nightly/*");
         
-        // Get list from repository or the environment variable PACKAGE_LIST
-        let packages: string[] = [];
-        if(process.env.PACKAGE_LIST) {
-            packages = process.env.PACKAGE_LIST.split(",");
-        } else {
-            packages = Array.from(repository.keys());
-        }
-        console.log("📦 Package list: " + packages.join(", "));
-        let repoTotal = 0;
-        for (const pkg of packages) {
-            let fullList = parsePackageDependencies(pkg).filter((p) => repository.has(p));
-            console.log("📦 Building " + pkg + " with dependencies: " + fullList.join(", "));
-            let total = 0;
-            for (const d of fullList) {
-                await buildPackage(repository.get(d)!);
-                total++;
-                console.log("⏳ Built " + total + " of " + fullList.length + " dependencies for target " + pkg + " (" + repoTotal + "/" + repository.size + ")");
+        if(process.env.BUILD_SINGLE_PACKAGE) {
+            console.log("📦 Building single package " + process.env.BUILD_SINGLE_PACKAGE);
+            buildStep = "build-single-package";
+            if(!repository.has(process.env.BUILD_SINGLE_PACKAGE)) {
+                throw new Error("Package not found in repo.ts");
             }
-            console.log("✅ Built " + total + " packages for target " + pkg);
-            repoTotal++;
+            await buildPackage(repository.get(process.env.BUILD_SINGLE_PACKAGE)!);
+        } else {
+            // Get list from repository or the environment variable PACKAGE_LIST
+            let packages: string[] = [];
+            if(process.env.PACKAGE_LIST) {
+                packages = process.env.PACKAGE_LIST.split(",");
+            } else {
+                packages = Array.from(repository.keys());
+            }
+            console.log("📦 Package list: " + packages.join(", "));
+            let repoTotal = 0;
+            for (const pkg of packages) {
+                let fullList = parsePackageDependencies(pkg).filter((p) => repository.has(p));
+                console.log("📦 Building " + pkg + " with dependencies: " + fullList.join(", "));
+                let total = 0;
+                for (const d of fullList) {
+                    await buildPackage(repository.get(d)!);
+                    total++;
+                    console.log("⏳ Built " + total + " of " + fullList.length + " dependencies for target " + pkg + " (" + repoTotal + "/" + repository.size + ")");
+                }
+                console.log("✅ Built " + total + " packages for target " + pkg);
+                repoTotal++;
+            }
         }
 
         // Deploy files
@@ -101,7 +108,7 @@ async function buildPackage(pkg: Package) {
             return;
         }
         // return if skipBuild is true
-        if (pkg.skipBuild && !process.env.PACKAGE_LIST?.split(",").includes(pkg.name)) {
+        if (pkg.skipBuild && !process.env.PACKAGE_LIST?.split(",").includes(pkg.name) && !process.env.BUILD_SINGLE_PACKAGE) {
             console.log("📦 -> Skip build is true, skipping");
             return;
         }
@@ -136,7 +143,7 @@ async function buildPackage(pkg: Package) {
         
         // Check if git commit message contains GIT_SILENT
         const gitLog = exec(`git -C ${pkgDir}/src/${pkg.name} log -1 --pretty=%B`, false).toString().trim();
-        if (gitLog.includes("GIT_SILENT")) {
+        if (gitLog.includes("GIT_SILENT") && process.env.IGNORE_GIT_SILENT !== "true") {
             console.log("📦 -> GIT_SILENT found, skipping");
             return;
         }
