@@ -26,13 +26,14 @@ import { Package } from "./helpers/types";
 const WORKDIR = path.join(process.cwd(), "workdir");
 const ABUILD_WRAPPER = path.join(__dirname, "abuild-wrapper.sh");
 const ALPINE_APORTS_REPO = "https://gitlab.alpinelinux.org/alpine/aports.git";
-const ARCH = exec("uname -m", false).toString().trim();
+const ARCH = process.env.ARCH ?? exec("uname -m", false).toString().trim();
 
 let builtList: string[] = [];
 
 console.log("WORKDIR: " + WORKDIR);
 console.log("ABUILD_WRAPPER: " + ABUILD_WRAPPER);
 console.log("ALPINE_APORTS_REPO: " + ALPINE_APORTS_REPO);
+console.log("ARCH: " + ARCH);
 
 let buildStep = "";
 
