@@ -9,4 +9,5 @@ export interface Package {
     patches?: Patch[];
     extraDepends?: string[];
     skipBuild?: boolean;
+    dontDistcc?: boolean;
 }

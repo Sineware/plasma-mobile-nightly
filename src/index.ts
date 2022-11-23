@@ -26,7 +26,7 @@ import { Package } from "./helpers/types";
 const WORKDIR = path.join(process.cwd(), "workdir");
 const ABUILD_WRAPPER = path.join(__dirname, "abuild-wrapper.sh");
 const ALPINE_APORTS_REPO = "https://gitlab.alpinelinux.org/alpine/aports.git";
-const ARCH = process.env.ARCH ?? exec("uname -m", false).toString().trim();
+const ARCH = process.env.BUILD_ARCH ?? exec("uname -m", false).toString().trim();
 
 let builtList: string[] = [];
 
@@ -160,6 +160,7 @@ async function buildPackage(pkg: Package) {
         buildStep = `build-${pkg.name}-patch`;
         exec(`sed -i '/pkgver=/c\pkgver=${pkgVer}' ${pkgDir}/APKBUILD`);
         exec(`sed -i 's/$pkgname-lang//g' ${pkgDir}/APKBUILD`);
+
         if(pkg.patches) {
             for (const patch of pkg.patches) {
                 console.log("🔧   -> Patching" + " with " + patch.cmd);
@@ -188,7 +189,15 @@ async function buildPackage(pkg: Package) {
         buildStep = `build-${pkg.name}-abuild`;
         exec(`cd ${pkgDir} && abuild -F prepare`);
         exec(`cd ${pkgDir} && abuild -F deps`);
-        exec(`cd ${pkgDir} && abuild -F build`);
+        exec(`cd ${pkgDir} && abuild -F build`, true, (process.env.DISTCC_SETTINGS === "true" && !pkg.dontDistcc) ? {
+            "ARCH": ARCH,
+            "CMAKE_BUILD_PARALLEL_LEVEL": "40",
+            "MAKEFLAGS": "-j40",
+            "CC": "distcc",
+            "CXX": "distcc g++",
+        } : {
+            "ARCH": ARCH,
+        });
 
         // clear old packages from ~/packages/prolinux-nightly/${ARCH}
         console.log("📦 -> Clearing old packages");

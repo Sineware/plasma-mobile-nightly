@@ -4,6 +4,7 @@ const PATCH_KWAYLAND_REMOVE_0001PATCH: Patch = {cmd: 'truncate -s 0 ./prolinux-n
 const PATCH_KIMAGEFORMATS_REMOVE_0001PATCH: Patch = {cmd: 'truncate -s 0 ./prolinux-nightly/kimageformats/src/0001-avif-revert-previous-commit.patch'}
 const PATCH_KWIN_REMOVE_0001PATCH: Patch = {cmd: 'truncate -s 0 ./prolinux-nightly/kwin/src/0001-Revert-autotests-Make-mapping-between-KWin-Output-an.patch'}
 
+
 // List of packages and their git repositories
 export const repository = new Map<string,Package>([
     // other
@@ -104,7 +105,7 @@ export const repository = new Map<string,Package>([
     ["kidletime", { name: "kidletime", repo: "https://invent.kde.org/frameworks/kidletime.git", aports_repo: "community", extraDepends: ["plasma-wayland-protocols", "wayland-protocols"]}],
     ["kimageformats", { name: "kimageformats", repo: "https://invent.kde.org/frameworks/kimageformats.git", aports_repo: "community", patches: [PATCH_KIMAGEFORMATS_REMOVE_0001PATCH]}],
     ["kinit", { name: "kinit", repo: "https://invent.kde.org/frameworks/kinit.git", aports_repo: "community"}],
-    ["kio", { name: "kio", repo: "https://invent.kde.org/frameworks/kio.git", aports_repo: "community"}],
+    ["kio", { name: "kio", repo: "https://invent.kde.org/frameworks/kio.git", aports_repo: "community", dontDistcc: true}],
     ["kirigami2", { name: "kirigami2", repo: "https://invent.kde.org/frameworks/kirigami.git", aports_repo: "community"}],
     ["kitemmodels", { name: "kitemmodels", repo: "https://invent.kde.org/frameworks/kitemmodels.git", aports_repo: "community"}],
     ["kitemviews", { name: "kitemviews", repo: "https://invent.kde.org/frameworks/kitemviews.git", aports_repo: "community"}],
