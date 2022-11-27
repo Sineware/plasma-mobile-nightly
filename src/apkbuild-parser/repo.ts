@@ -87,7 +87,7 @@ export const repository = new Map<string,Package>([
     ["kcrash", { name: "kcrash", repo: "https://invent.kde.org/frameworks/kcrash.git", aports_repo: "community"}],
     ["kdav", { name: "kdav", repo: "https://invent.kde.org/frameworks/kdav.git", aports_repo: "community"}],
     ["kdbusaddons", { name: "kdbusaddons", repo: "https://invent.kde.org/frameworks/kdbusaddons.git", aports_repo: "community"}],
-    ["kdeclarative", { name: "kdeclarative", repo: "https://invent.kde.org/frameworks/kdeclarative.git", aports_repo: "community", skipBuild: true}],
+    ["kdeclarative", { name: "kdeclarative", repo: "https://invent.kde.org/frameworks/kdeclarative.git", aports_repo: "community", skipBuild: false}],
     ["kded", { name: "kded", repo: "https://invent.kde.org/frameworks/kded.git", aports_repo: "community"}],
     ["kdelibs4support", { name: "kdelibs4support", repo: "https://invent.kde.org/frameworks/kdelibs4support.git", aports_repo: "community"}],
     ["kdesignerplugin", { name: "kdesignerplugin", repo: "https://invent.kde.org/frameworks/kdesignerplugin.git", aports_repo: "community"}],
