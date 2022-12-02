@@ -52,10 +52,6 @@ let buildStep = "";
         exec(`git -C aports pull || git clone ${ALPINE_APORTS_REPO} aports`);
 
         exec("mkdir -pv prolinux-nightly");
-        //exec("rm -rfv prolinux-nightly/*"); // todo speed up build by checking if new git commits
-
-        // clear repository folder
-        //exec("rm -rfv ~/packages/prolinux-nightly/*");
         
         if(process.env.BUILD_SINGLE_PACKAGE) {
             console.log("📦 Building single package " + process.env.BUILD_SINGLE_PACKAGE);
@@ -76,6 +72,12 @@ let buildStep = "";
             let repoTotal = 0;
             for (const pkg of packages) {
                 let fullList = parsePackageDependencies(pkg).filter((p) => repository.has(p));
+                // Also parse dependencies of extraDepends and add them to fullList
+                if(repository.get(pkg)?.extraDepends) {
+                    for (const extraDepend of repository.get(pkg)!.extraDepends!) {
+                        fullList = [...fullList, ...parsePackageDependencies(extraDepend).filter((p) => repository.has(p))];
+                    }
+                }
                 console.log("📦 Building " + pkg + " with dependencies: " + fullList.join(", "));
                 let total = 0;
                 for (const d of fullList) {
