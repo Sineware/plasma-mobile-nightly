@@ -133,7 +133,7 @@ async function buildPackage(pkg: Package) {
             } else {
                 console.log("📦 -> New commits found, rebuilding");
                 console.log(`      ->Deleting $(pkgDir)`)
-                exec(`rm ${pkgDir}`);
+                exec(`rm -rf ${pkgDir}`);
             }
         } catch {
             console.log("📦 -> Not cloned, cloning");
