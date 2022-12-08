@@ -170,6 +170,6 @@ export const repository = new Map<string,Package>([
     ["plasmatube", { name: "plasmatube", repo: "https://invent.kde.org/plasma-mobile/plasmatube.git", aports_repo: "community"}],
     ["qmlkonsole", { name: "qmlkonsole", repo: "https://invent.kde.org/plasma-mobile/qmlkonsole.git", aports_repo: "community", extraDepends: ["kirigami-addons-dev"]}],
     ["spacebar", { name: "spacebar", repo: "https://invent.kde.org/plasma-mobile/spacebar.git", aports_repo: "community", extraDepends: ["c-ares"], skipBuild: true}],
-    ["tokodon", { name: "tokodon", repo: "https://invent.kde.org/network/tokodon.git", aports_repo: "community", extraDepends: ["kirigami-addons-dev"]}],
+    ["tokodon", { name: "tokodon", repo: "https://invent.kde.org/network/tokodon.git", aports_repo: "community", extraDepends: ["kirigami-addons-dev", "kio-dev"]}],
     ["vakzination", { name: "vakzination", repo: "https://invent.kde.org/plasma-mobile/vakzination.git", aports_repo: "community"}],
 ]);
