@@ -212,6 +212,10 @@ async function buildPackage(pkg: Package) {
         exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-lang-9999*`);
         exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/${pkg.name}-dbg-9999*`);
 
+        exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/plasma-nm-mobile-9999*`);
+        exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/knetattach-9999*`);
+        exec(`rm -rfv ~/packages/prolinux-nightly/${ARCH}/kio-kwallet-9999*`);
+
         exec(`cd ${pkgDir} && abuild -F rootpkg`);
         exec(`cd ${pkgDir} && abuild -F index`);
         exec(`cd ${pkgDir} && abuild -F undeps`);
