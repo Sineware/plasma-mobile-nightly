@@ -19,7 +19,7 @@ require('dotenv').config()
 
 import path from "path";
 import { parsePackageDependencies } from "./apkbuild-parser/parser";
-import { repository } from "./apkbuild-parser/repo";
+import { repository, globalPatches } from "./apkbuild-parser/repo";
 import exec from "./helpers/exec";
 import { Package } from "./helpers/types";
 
@@ -163,7 +163,16 @@ async function buildPackage(pkg: Package) {
         buildStep = `build-${pkg.name}-patch`;
         exec(`sed -i '/pkgver=/c\pkgver=${pkgVer}' ${pkgDir}/APKBUILD`);
         exec(`sed -i 's/$pkgname-lang//g' ${pkgDir}/APKBUILD`);
-
+        // run global patches
+        for (const patch of globalPatches) {
+            console.log("🔧   -> Patching with " + patch.cmd);
+            if(patch.runInDir) {
+                exec(`cd ${pkgDir} && ${patch.cmd}`);
+            } else {
+                exec(patch.cmd);
+            }
+        }
+        // per package patch set
         if(pkg.patches) {
             for (const patch of pkg.patches) {
                 console.log("🔧   -> Patching" + " with " + patch.cmd);

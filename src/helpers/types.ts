@@ -1,6 +1,7 @@
 export interface Patch {
     cmd: string;
     postCmd?: string;
+    runInDir?: true;
 }
 export interface Package {
     name: string;

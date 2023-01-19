@@ -4,6 +4,11 @@ const PATCH_KWAYLAND_REMOVE_0001PATCH: Patch = {cmd: 'truncate -s 0 ./prolinux-n
 const PATCH_KIMAGEFORMATS_REMOVE_0001PATCH: Patch = {cmd: 'truncate -s 0 ./prolinux-nightly/kimageformats/src/0001-avif-revert-previous-commit.patch'}
 const PATCH_KWIN_REMOVE_0001PATCH: Patch = {cmd: 'truncate -s 0 ./prolinux-nightly/kwin/src/0001-Revert-autotests-Make-mapping-between-KWin-Output-an.patch'}
 
+const PATCH_REPLACE_QT5_WITH_QT6: Patch = {cmd: 'sed -i "s/qt5/qt6/g" ./APKBUILD', runInDir: true};
+
+export const globalPatches = [
+    PATCH_REPLACE_QT5_WITH_QT6,
+];
 
 // List of packages and their git repositories
 export const repository = new Map<string,Package>([
