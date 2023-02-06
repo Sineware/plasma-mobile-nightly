@@ -124,6 +124,13 @@ async function buildPackage(pkg: Package) {
         // check if rebuilding is necessary by compare rev-parse of local and remote
         try {
             exec(`git -C ${pkgDir}/src/${pkg.name} fetch`);
+            // check if the "kf5" branch exists, if so, use it
+            try {
+                exec(`git -C ${pkgDir}/src/${pkg.name} checkout kf5`);
+                console.log("🔧   -> Using kf5 branch");
+            } catch {
+                console.log("🔧   -> Using master branch");
+            }
             const remoteRev = exec(`git -C ${pkgDir}/src/${pkg.name} rev-parse @{u}`, false).toString().trim();
             const localRev = exec(`git -C ${pkgDir}/src/${pkg.name} rev-parse @`, false).toString().trim();
             if (remoteRev === localRev) {
@@ -149,14 +156,6 @@ async function buildPackage(pkg: Package) {
             console.log("📦 -> GIT_SILENT found, skipping");
             return;
         }*/
-
-        // check if the "kf5" branch exists, if so, use it
-        try {
-            exec(`git -C ${pkgDir}/src/${pkg.name} checkout kf5`);
-            console.log("🔧   -> Using kf5 branch");
-        } catch {
-            console.log("🔧   -> Using master branch");
-        }
 
         buildStep = `build-${pkg.name}-pre-patch`;
         // copy patches/extra files from aports to src
