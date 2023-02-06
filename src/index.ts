@@ -152,7 +152,7 @@ async function buildPackage(pkg: Package) {
 
         // check if the "kf5" branch exists, if so, use it
         try {
-            exec(`git -C ${aportsPkgDir} checkout kf5`);
+            exec(`git -C ${pkgDir}/src/${pkg.name} checkout kf5`);
             console.log("🔧   -> Using kf5 branch");
         } catch {
             console.log("🔧   -> Using master branch");
