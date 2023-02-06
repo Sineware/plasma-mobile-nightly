@@ -149,6 +149,14 @@ async function buildPackage(pkg: Package) {
         buildStep = `build-${pkg.name}-clone`;
         exec(`mkdir -pv ${pkgDir}/src/${pkg.name}`);
         exec(`git clone ${pkg.repo} ${pkgDir}/src/${pkg.name}`);  
+
+        // check if the "kf5" branch exists, if so, use it
+        try {
+            exec(`git -C ${pkgDir}/src/${pkg.name} checkout kf5`);
+            console.log("🔧   -> Using kf5 branch");
+        } catch {
+            console.log("🔧   -> Using master branch");
+        }
         
         // Check if git commit message contains GIT_SILENT
         /*const gitLog = exec(`git -C ${pkgDir}/src/${pkg.name} log -1 --pretty=%B`, false).toString().trim();
