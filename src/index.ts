@@ -121,8 +121,7 @@ async function buildPackage(pkg: Package) {
         const pkgDir = path.join(WORKDIR, "prolinux-nightly", pkg.name);
         const aportsPkgDir = path.join(WORKDIR, "aports", pkg.aports_repo, pkg.name);
 
-        // check if rebuilding is nessesary by compare rev-parse of local and remote
-        
+        // check if rebuilding is necessary by compare rev-parse of local and remote
         try {
             exec(`git -C ${pkgDir}/src/${pkg.name} fetch`);
             const remoteRev = exec(`git -C ${pkgDir}/src/${pkg.name} rev-parse @{u}`, false).toString().trim();
@@ -138,7 +137,6 @@ async function buildPackage(pkg: Package) {
         } catch {
             console.log("📦 -> Not cloned, cloning");
         }
-        
 
         console.log("🔧   -> Clone package repository");
         buildStep = `build-${pkg.name}-clone`;
@@ -146,10 +144,18 @@ async function buildPackage(pkg: Package) {
         exec(`git clone ${pkg.repo} ${pkgDir}/src/${pkg.name}`);  
         
         // Check if git commit message contains GIT_SILENT
-        const gitLog = exec(`git -C ${pkgDir}/src/${pkg.name} log -1 --pretty=%B`, false).toString().trim();
+        /*const gitLog = exec(`git -C ${pkgDir}/src/${pkg.name} log -1 --pretty=%B`, false).toString().trim();
         if (gitLog.includes("GIT_SILENT") && process.env.IGNORE_GIT_SILENT !== "true") {
             console.log("📦 -> GIT_SILENT found, skipping");
             return;
+        }*/
+
+        // check if the "kf5" branch exists, if so, use it
+        try {
+            exec(`git -C ${aportsPkgDir} rev-parse --verify kf5`);
+            exec(`git -C ${aportsPkgDir} checkout kf5`);
+        } catch {
+            // do nothing
         }
 
         buildStep = `build-${pkg.name}-pre-patch`;

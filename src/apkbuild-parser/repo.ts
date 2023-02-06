@@ -4,7 +4,7 @@ const PATCH_KWAYLAND_REMOVE_0001PATCH: Patch = {cmd: 'truncate -s 0 ./prolinux-n
 const PATCH_KIMAGEFORMATS_REMOVE_0001PATCH: Patch = {cmd: 'truncate -s 0 ./prolinux-nightly/kimageformats/src/0001-avif-revert-previous-commit.patch'}
 const PATCH_KWIN_REMOVE_0001PATCH: Patch = {cmd: 'truncate -s 0 ./prolinux-nightly/kwin/src/0001-Revert-autotests-Make-mapping-between-KWin-Output-an.patch'}
 
-export const globalPatches = [
+export const globalPatches: Patch[] = [
     
 ];
 
