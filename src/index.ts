@@ -145,10 +145,20 @@ async function buildPackage(pkg: Package) {
             console.log("📦 -> Not cloned, cloning");
         }
 
+        // temp 
+        console.log("📦 -> New commits found, rebuilding");
+        console.log(`      ->Deleting ${pkgDir}`)
+        exec(`rm -rf ${pkgDir}`);
+
         console.log("🔧   -> Clone package repository");
         buildStep = `build-${pkg.name}-clone`;
-        exec(`mkdir -pv ${pkgDir}/src/${pkg.name}`);
-        exec(`git clone ${pkg.repo} ${pkgDir}/src/${pkg.name}`);  
+        try {
+            exec(`mkdir -pv ${pkgDir}/src/${pkg.name}`);
+            exec(`git clone ${pkg.repo} ${pkgDir}/src/${pkg.name}`);  
+        } catch (e) {
+            console.log(e);
+            console.log("🔧   -> Clone failed?");
+        }
 
         // check if the "kf5" branch exists, if so, use it
         try {
