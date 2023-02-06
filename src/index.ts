@@ -135,7 +135,7 @@ async function buildPackage(pkg: Package) {
             const localRev = exec(`git -C ${pkgDir}/src/${pkg.name} rev-parse @`, false).toString().trim();
             if (remoteRev === localRev) {
                 console.log("📦 -> Already up to date (upstream), skipping");
-                return;
+                //return;
             } else {
                 console.log("📦 -> New commits found, rebuilding");
                 console.log(`      ->Deleting ${pkgDir}`)
