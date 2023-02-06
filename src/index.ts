@@ -152,10 +152,10 @@ async function buildPackage(pkg: Package) {
 
         // check if the "kf5" branch exists, if so, use it
         try {
-            exec(`git -C ${aportsPkgDir} rev-parse --verify kf5`);
             exec(`git -C ${aportsPkgDir} checkout kf5`);
+            console.log("🔧   -> Using kf5 branch");
         } catch {
-            // do nothing
+            console.log("🔧   -> Using master branch");
         }
 
         buildStep = `build-${pkg.name}-pre-patch`;
