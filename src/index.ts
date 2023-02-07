@@ -229,10 +229,10 @@ async function buildPackage(pkg: Package) {
             "CXX": "ccache distcc g++",
         } : (pkg.name === "kio") ? {
             "ARCH": ARCH,
-            "CC": "ccache gcc",
-            "CXX": "ccache g++",
         } : {
             "ARCH": ARCH,
+            "CC": "ccache gcc",
+            "CXX": "ccache g++",
         });
 
         // clear old packages from ~/packages/prolinux-nightly/${ARCH}
