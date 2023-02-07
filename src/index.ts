@@ -122,8 +122,7 @@ async function buildPackage(pkg: Package) {
         const aportsPkgDir = path.join(WORKDIR, "aports", pkg.aports_repo, pkg.name);
 
         // check if rebuilding is necessary by compare rev-parse of local and remote
-        try {
-            /*
+        /*try {
             exec(`git -C ${pkgDir}/src/${pkg.name} fetch`);
             try {
                 exec(`git -C ${pkgDir}/src/${pkg.name} checkout kf5`);
