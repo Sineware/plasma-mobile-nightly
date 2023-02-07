@@ -6,7 +6,7 @@ const PATCH_KWIN_REMOVE_0001PATCH: Patch = {cmd: 'truncate -s 0 ./prolinux-night
 
 export const globalPatches: Patch[] = [
     // Append a line to the APKBUILD file
-    {cmd: `echo "options=\\"$options !strip\\"" >> APKBUILD`, runInDir: true},
+    {cmd: `echo "options=\\"\\$options !strip\\"" >> APKBUILD`, runInDir: true},
 ];
 
 // List of packages and their git repositories
