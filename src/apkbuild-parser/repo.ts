@@ -5,7 +5,8 @@ const PATCH_KIMAGEFORMATS_REMOVE_0001PATCH: Patch = {cmd: 'truncate -s 0 ./proli
 const PATCH_KWIN_REMOVE_0001PATCH: Patch = {cmd: 'truncate -s 0 ./prolinux-nightly/kwin/src/0001-Revert-autotests-Make-mapping-between-KWin-Output-an.patch'}
 
 export const globalPatches: Patch[] = [
-    
+    // Append a line to the APKBUILD file
+    {cmd: 'echo "options=\"$options !strip\"" >> APKBUILD', runInDir: true},
 ];
 
 // List of packages and their git repositories
