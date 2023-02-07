@@ -266,7 +266,7 @@ async function buildPackage(pkg: Package) {
         // remove pkg folder
         exec(`sudo apk del .makedepends-${pkg.name}`);
         const pkgDir = path.join(WORKDIR, "prolinux-nightly", pkg.name);
-        exec(`rm -rf ${pkgDir}`);
+        //exec(`rm -rf ${pkgDir}`);
         throw e;
     }
 }
