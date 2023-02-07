@@ -123,8 +123,8 @@ async function buildPackage(pkg: Package) {
 
         // check if rebuilding is necessary by compare rev-parse of local and remote
         try {
+            /*
             exec(`git -C ${pkgDir}/src/${pkg.name} fetch`);
-            // check if the "kf5" branch exists, if so, use it
             try {
                 exec(`git -C ${pkgDir}/src/${pkg.name} checkout kf5`);
                 console.log("🔧   -> Using kf5 branch");
@@ -143,11 +143,9 @@ async function buildPackage(pkg: Package) {
             }
         } catch {
             console.log("📦 -> Not cloned, cloning");
-        }
+        }*/
 
-        // temp 
-        console.log("📦 -> New commits found, rebuilding");
-        console.log(`      ->Deleting ${pkgDir}`)
+        console.log(`📦 -> Deleting ${pkgDir}`)
         exec(`rm -rf ${pkgDir}`);
 
         console.log("🔧   -> Clone package repository");
@@ -228,8 +226,8 @@ async function buildPackage(pkg: Package) {
             "ARCH": ARCH,
             "CMAKE_BUILD_PARALLEL_LEVEL": "40",
             "MAKEFLAGS": "-j40",
-            "CC": "distcc",
-            "CXX": "distcc g++",
+            "CC": "ccache distcc",
+            "CXX": "ccache distcc g++",
         } : {
             "ARCH": ARCH,
         });
