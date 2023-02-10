@@ -122,7 +122,7 @@ async function buildPackage(pkg: Package) {
         const aportsPkgDir = path.join(WORKDIR, "aports", pkg.aports_repo, pkg.name);
 
         // check if rebuilding is necessary by compare rev-parse of local and remote
-        /*try {
+        try {
             exec(`git -C ${pkgDir}/src/${pkg.name} fetch`);
             try {
                 exec(`git -C ${pkgDir}/src/${pkg.name} checkout kf5`);
@@ -134,7 +134,7 @@ async function buildPackage(pkg: Package) {
             const localRev = exec(`git -C ${pkgDir}/src/${pkg.name} rev-parse @`, false).toString().trim();
             if (remoteRev === localRev) {
                 console.log("📦 -> Already up to date (upstream), skipping");
-                //return;
+                return;
             } else {
                 console.log("📦 -> New commits found, rebuilding");
                 console.log(`      ->Deleting ${pkgDir}`)
@@ -142,7 +142,7 @@ async function buildPackage(pkg: Package) {
             }
         } catch {
             console.log("📦 -> Not cloned, cloning");
-        }*/
+        }
 
         console.log(`📦 -> Deleting ${pkgDir}`)
         exec(`rm -rf ${pkgDir}`);
