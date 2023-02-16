@@ -153,7 +153,7 @@ export const repository = new Map<string,Package>([
     // plasma mobile gear
     ["alligator", { name: "alligator", repo: "https://invent.kde.org/plasma-mobile/alligator.git", aports_repo: "community"}],
     ["angelfish", { name: "angelfish", repo: "https://invent.kde.org/plasma-mobile/angelfish.git", aports_repo: "community", skipBuild: true, extraDepends: ["kirigami-addons-dev"]}],
-    ["audiotube", { name: "audiotube", repo: "https://invent.kde.org/plasma-mobile/audiotube.git", aports_repo: "community"}],
+    ["audiotube", { name: "audiotube", repo: "https://invent.kde.org/plasma-mobile/audiotube.git", aports_repo: "community", extraDepends: ["kirigami-addons-dev"]}],
     ["calindori", { name: "calindori", repo: "https://invent.kde.org/plasma-mobile/calindori.git", aports_repo: "community"}],
     ["kalk", { name: "kalk", repo: "https://invent.kde.org/plasma-mobile/kalk.git", aports_repo: "community"}],
     ["kasts", { name: "kasts", repo: "https://invent.kde.org/plasma-mobile/kasts.git", aports_repo: "community", extraDepends: ["kirigami-addons-dev"]}],
