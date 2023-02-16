@@ -129,7 +129,7 @@ export const repository = new Map<string,Package>([
     ["kross", { name: "kross", repo: "https://invent.kde.org/frameworks/kross.git", aports_repo: "community"}],
     ["krunner", { name: "krunner", repo: "https://invent.kde.org/frameworks/krunner.git", aports_repo: "community"}],
     ["kservice", { name: "kservice", repo: "https://invent.kde.org/frameworks/kservice.git", aports_repo: "community"}],
-    ["ktexteditor", { name: "ktexteditor", repo: "https://invent.kde.org/frameworks/ktexteditor.git", aports_repo: "community", extraDepends: ["qt5-qttools"]}],
+    ["ktexteditor", { name: "ktexteditor", repo: "https://invent.kde.org/frameworks/ktexteditor.git", aports_repo: "community"}],
     ["ktextwidgets", { name: "ktextwidgets", repo: "https://invent.kde.org/frameworks/ktextwidgets.git", aports_repo: "community"}],
     ["kunitconversion", { name: "kunitconversion", repo: "https://invent.kde.org/frameworks/kunitconversion.git", aports_repo: "community"}],
     ["kwallet", { name: "kwallet", repo: "https://invent.kde.org/frameworks/kwallet.git", aports_repo: "community"}],
