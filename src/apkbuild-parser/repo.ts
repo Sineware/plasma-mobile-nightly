@@ -161,7 +161,7 @@ export const repository = new Map<string,Package>([
     ["keysmith", { name: "keysmith", repo: "https://invent.kde.org/utilities/keysmith.git", aports_repo: "community"}],
     ["khealthcertificate", { name: "khealthcertificate", repo: "https://invent.kde.org/pim/khealthcertificate.git", aports_repo: "community", extraDepends: ["ki18n-dev"]}],
     ["kirigami-addons", { name: "kirigami-addons", repo: "https://invent.kde.org/libraries/kirigami-addons.git", aports_repo: "community"}],
-    ["koko", { name: "koko", repo: "https://invent.kde.org/graphics/koko.git", aports_repo: "community", skipBuild: true}],
+    ["koko", { name: "koko", repo: "https://invent.kde.org/graphics/koko.git", aports_repo: "community", skipBuild: false}],
     ["kongress", { name: "kongress", repo: "https://invent.kde.org/utilities/kongress.git", aports_repo: "community"}],
     ["krecorder", { name: "krecorder", repo: "https://invent.kde.org/plasma-mobile/krecorder.git", aports_repo: "community", extraDepends: ["kirigami-addons-dev"]}],
     ["ktrip", { name: "ktrip", repo: "https://invent.kde.org/utilities/ktrip.git", aports_repo: "community"}],
@@ -173,7 +173,7 @@ export const repository = new Map<string,Package>([
     ["plasma-settings", { name: "plasma-settings", repo: "https://invent.kde.org/plasma-mobile/plasma-settings.git", aports_repo: "community", extraDepends: ["kirigami-addons-dev"]}],
     ["plasmatube", { name: "plasmatube", repo: "https://invent.kde.org/plasma-mobile/plasmatube.git", aports_repo: "community", extraDepends: ["mpv", "mpv-dev"]}],
     ["qmlkonsole", { name: "qmlkonsole", repo: "https://invent.kde.org/plasma-mobile/qmlkonsole.git", aports_repo: "community", extraDepends: ["kirigami-addons-dev"]}],
-    ["spacebar", { name: "spacebar", repo: "https://invent.kde.org/plasma-mobile/spacebar.git", aports_repo: "community", extraDepends: ["c-ares"], skipBuild: true}],
+    ["spacebar", { name: "spacebar", repo: "https://invent.kde.org/plasma-mobile/spacebar.git", aports_repo: "community", extraDepends: ["c-ares"], skipBuild: false}],
     ["tokodon", { name: "tokodon", repo: "https://invent.kde.org/network/tokodon.git", aports_repo: "community", extraDepends: ["kirigami-addons-dev", "kio-dev"]}],
     ["vakzination", { name: "vakzination", repo: "https://invent.kde.org/plasma-mobile/vakzination.git", aports_repo: "community"}],
 ]);
