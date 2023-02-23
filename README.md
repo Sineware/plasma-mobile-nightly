@@ -5,6 +5,7 @@ Nightly Alpine packages for Plasma Mobile from master/main and postmarketOS imag
 
 ### Environment Variables
 - BUILD_SINGLE_PACKAGE = string: (build a single package from repo.ts)
+- BUILD_SINGLE_PACKAGE_BRANCH = string: (select a branch from the git repo)
 - PACKAGE_LIST = string,string,string...: (build the list of packages)
 - IGNORE_GIT_SILENT = true/false: (build packages even if the last commit was GIT_SILENT)
 - DISTCC_SETTINGS = true/false: (build packages using distcc env)

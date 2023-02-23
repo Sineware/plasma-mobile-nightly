@@ -124,9 +124,10 @@ async function buildPackage(pkg: Package) {
         // check if rebuilding is necessary by compare rev-parse of local and remote
         try {
             exec(`git -C ${pkgDir}/src/${pkg.name} fetch`);
+            let branch = process.env.BUILD_SINGLE_PACKAGE_BRANCH ?? "kf5";
             try {
-                exec(`git -C ${pkgDir}/src/${pkg.name} checkout kf5`);
-                console.log("🔧   -> Using kf5 branch");
+                exec(`git -C ${pkgDir}/src/${pkg.name} checkout ` + branch);
+                console.log("🔧   -> Using " + branch + " branch");
             } catch {
                 console.log("🔧   -> Using master branch");
             }
