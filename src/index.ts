@@ -122,9 +122,9 @@ async function buildPackage(pkg: Package) {
         const aportsPkgDir = path.join(WORKDIR, "aports", pkg.aports_repo, pkg.name);
 
         // check if rebuilding is necessary by compare rev-parse of local and remote
+        let branch = process.env.BUILD_SINGLE_PACKAGE_BRANCH ?? "kf5";
         try {
             exec(`git -C ${pkgDir}/src/${pkg.name} fetch`);
-            let branch = process.env.BUILD_SINGLE_PACKAGE_BRANCH ?? "kf5";
             try {
                 exec(`git -C ${pkgDir}/src/${pkg.name} checkout ` + branch);
                 console.log("🔧   -> Using " + branch + " branch");
@@ -160,8 +160,8 @@ async function buildPackage(pkg: Package) {
 
         // check if the "kf5" branch exists, if so, use it
         try {
-            exec(`git -C ${pkgDir}/src/${pkg.name} checkout kf5`);
-            console.log("🔧   -> Using kf5 branch");
+            exec(`git -C ${pkgDir}/src/${pkg.name} checkout ${branch}`);
+            console.log("🔧   -> Using " + branch + " branch");
         } catch {
             console.log("🔧   -> Using master branch");
         }
