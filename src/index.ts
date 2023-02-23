@@ -123,6 +123,7 @@ async function buildPackage(pkg: Package) {
 
         // check if rebuilding is necessary by compare rev-parse of local and remote
         let branch = process.env.BUILD_SINGLE_PACKAGE_BRANCH ?? "kf5";
+        let repoURL = process.env.BUILD_SINGLE_PACKAGE_REPO ?? pkg.repo;
         try {
             exec(`git -C ${pkgDir}/src/${pkg.name} fetch`);
             try {
@@ -152,7 +153,7 @@ async function buildPackage(pkg: Package) {
         buildStep = `build-${pkg.name}-clone`;
         try {
             exec(`mkdir -pv ${pkgDir}/src/${pkg.name}`);
-            exec(`git clone ${pkg.repo} ${pkgDir}/src/${pkg.name}`);  
+            exec(`git clone ${repoURL} ${pkgDir}/src/${pkg.name}`);  
         } catch (e) {
             console.log(e);
             console.log("🔧   -> Clone failed?");
