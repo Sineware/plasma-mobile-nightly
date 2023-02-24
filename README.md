@@ -10,6 +10,7 @@ Nightly Alpine packages for Plasma Mobile from master/main and postmarketOS imag
 - PACKAGE_LIST = string,string,string...: (build the list of packages)
 - IGNORE_GIT_SILENT = true/false: (build packages even if the last commit was GIT_SILENT)
 - DISTCC_SETTINGS = true/false: (build packages using distcc env)
+- DONT_DEPLOY = true/false: (do not run rsync at the end of a build)
 
 ### Running
 Make sure to have run `sudo apk add alpine-sdk ccache` (to have a compiler), `sudo addgroup user abuild` (to be able to run abuild), and `abuild-keygen -a -i` (to generate a key for signing a package). Relog to update groups.

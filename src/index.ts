@@ -91,9 +91,11 @@ let buildStep = "";
         }
 
         // Deploy files
-        buildStep = "deploy";
-        console.log("🚀 Deploying files");
-        exec(`rsync -aHAXxv --delete --progress ~/packages/prolinux-nightly/${ARCH} espimac:/var/www/sineware/repo/alpine/prolinux-nightly/`);
+        if(process.env.DONT_DEPLOY !== "true") {
+            buildStep = "deploy";
+            console.log("🚀 Deploying files");
+            exec(`rsync -aHAXxv --delete --progress ~/packages/prolinux-nightly/${ARCH} espimac:/var/www/sineware/repo/alpine/prolinux-nightly/`);
+        }
 
         buildStep = `finish`;
     } catch (e) {
