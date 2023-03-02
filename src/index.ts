@@ -129,6 +129,17 @@ async function buildPackage(pkg: Package) {
         try {
             exec(`git -C ${pkgDir}/src/${pkg.name} fetch`);
             try {
+                // temp until plasma 6 works 
+                // Plasma/5.27
+                exec(`git -C ${pkgDir}/src/${pkg.name} checkout ` + "Plasma/5.27");
+                console.log("🔧   -> Using Plasma 5.27" + " branch");
+            } catch {
+                console.log("🔧   -> Using master branch?");
+            }
+            try {
+                // temp until plasma 6 works 
+                // Plasma/5.27
+                
                 exec(`git -C ${pkgDir}/src/${pkg.name} checkout ` + branch);
                 console.log("🔧   -> Using " + branch + " branch");
             } catch {
@@ -162,6 +173,14 @@ async function buildPackage(pkg: Package) {
         }
 
         // check if the "kf5" branch exists, if so, use it
+        try {
+                // temp until plasma 6 works 
+                // Plasma/5.27
+                exec(`git -C ${pkgDir}/src/${pkg.name} checkout ` + "Plasma/5.27");
+                console.log("🔧   -> Using Plasma 5.27" + " branch");
+            } catch {
+                console.log("🔧   -> Using master branch?");
+            }
         try {
             exec(`git -C ${pkgDir}/src/${pkg.name} checkout ${branch}`);
             console.log("🔧   -> Using " + branch + " branch");
